@@ -3,6 +3,8 @@ package com.app.recyclerview_cardview;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,10 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements Filterable {
 
     private ArrayList<Item> listItem;
+    private ArrayList<Item> listItemFull;
+
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -27,6 +32,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public RecyclerAdapter(ArrayList<Item> listItem) {
         this.listItem = listItem;
+        this.listItemFull = new ArrayList<>(listItem);
     }
 
     @NonNull
@@ -91,5 +97,39 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
     }
 
+    @Override
+    public Filter getFilter() {
+        return itemFilter;
+    }
 
+    private Filter itemFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Item> filteredList = new ArrayList<>();
+
+            if (charSequence != null || charSequence.length() == 0) {
+                filteredList.addAll(listItemFull);
+            } else {
+                String filterPatter = charSequence.toString().toLowerCase().trim();
+
+                for (Item item : listItem) {
+                    if (item.getTextView().toLowerCase().contains(filterPatter)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            listItem.clear();
+            listItem.addAll( (List) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 }
