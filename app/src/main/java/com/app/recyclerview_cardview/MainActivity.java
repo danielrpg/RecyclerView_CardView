@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Item> itemList;
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private RecyclerAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
     private Button btnInsert, btnRemove;
@@ -57,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, MSG_REMOVED, Toast.LENGTH_LONG).show();
     }
 
+    public void changeItem(int position, String text) {
+        itemList.get(position).changeText1(text);
+        adapter.notifyItemChanged(position);
+    }
+
     public void createItemList() {
         itemList = new ArrayList<>();
         itemList.add(new Item(R.drawable.ic_android, "Line 1", "Line 2"));
@@ -72,5 +77,12 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                changeItem(position, "Clicked!");
+            }
+        });
     }
 }

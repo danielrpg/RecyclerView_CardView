@@ -11,12 +11,16 @@ public class Item {
         this.textView2 = text2;
     }
 
+    public void changeText1(String text) {
+        textView = text;
+    }
+
     public int getImageResource() {
         return this.imageResource;
     }
 
     public String getTextView() {
-        return this.textView2;
+        return this.textView;
     }
 
     public String getTextView2() {
