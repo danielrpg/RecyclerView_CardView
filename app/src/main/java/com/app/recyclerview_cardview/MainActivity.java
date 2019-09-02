@@ -35,12 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         createItemList();
         buildRecyclerView();
-
-        btnInsert = findViewById(R.id.button_insert);
-        btnRemove = findViewById(R.id.button_remove);
-
-        etInsert = findViewById(R.id.edittext_insert);
-        etRemove = findViewById(R.id.edittext_remove);
+        setButtons();
     }
 
     public void insertItem(View v) {
@@ -52,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void removeItem(View v) {
         int position = Integer.parseInt(etRemove.getText().toString());
+        removeItemMethod(position);
+    }
+
+    private void removeItemMethod(int position) {
         itemList.remove(position);
         adapter.notifyItemRemoved(position);
         Toast.makeText(this, MSG_REMOVED, Toast.LENGTH_LONG).show();
@@ -83,6 +82,19 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(int position) {
                 changeItem(position, "Clicked!");
             }
+
+            @Override
+            public void onDeleteClick(int position) {
+                removeItemMethod(position);
+            }
         });
+    }
+
+    private void setButtons() {
+        btnInsert = findViewById(R.id.button_insert);
+        btnRemove = findViewById(R.id.button_remove);
+
+        etInsert = findViewById(R.id.edittext_insert);
+        etRemove = findViewById(R.id.edittext_remove);
     }
 }
