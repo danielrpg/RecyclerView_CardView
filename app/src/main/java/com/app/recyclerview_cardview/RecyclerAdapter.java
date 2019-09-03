@@ -107,7 +107,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         protected FilterResults performFiltering(CharSequence charSequence) {
             List<Item> filteredList = new ArrayList<>();
 
-            if (charSequence != null || charSequence.length() == 0) {
+            if (charSequence == null || charSequence.length() == 0) {
                 filteredList.addAll(listItemFull);
             } else {
                 String filterPatter = charSequence.toString().toLowerCase().trim();

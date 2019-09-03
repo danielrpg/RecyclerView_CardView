@@ -5,5 +5,5 @@
         android:icon="@drawable/ic_search"
         android:title="Search"
         app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView$SearchAutoComplete"/>
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 </menu>
